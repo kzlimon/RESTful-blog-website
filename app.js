@@ -11,6 +11,7 @@ mongoose.connect('mongodb://localhost:27017/restful_blog_website', {
 });
 
 // 3. setup dependenccies 
+// ejs package installed for not using routes file name extensions
 app.set("view engine", "ejs");
 // to serve custom stylesheet
 app.use(express.static("public"));
@@ -46,8 +47,19 @@ var Blog = mongoose.model("Blog", blogSchema);
 // all routes is here
 
 // INDEX - route
-app.get("/blogs", function(req, res){
-    res.render
+app.get("/", function (req, res) {
+    res.redirect("/blogs");
+});
+app.get("/blogs", function (req, res) {
+    Blog.find({}, function (err, blogs) {
+        if (err) {
+            console.log("Error!");
+        } else {
+            res.render("index", {
+                blogs: blogs
+            });
+        }
+    });
 });
 
 
